@@ -23,8 +23,8 @@
        * Better handeling for geolocation service timeout
   */
 
-    if ("geolocation" in navigator){ console.log("Yes, geolocation ready"); }
-    else{ console.log("No, no geolocation"); }
+    if !("geolocation" in navigator)
+    { console.log("No, no geolocation"); return; }
 
     var gl = navigator.geolocation;
 
