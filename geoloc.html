@@ -101,13 +101,16 @@
     // Update the current location once 
     navigator.geolocation.getCurrentPosition(function(pos){
       var gmaps = new google.maps.Map(document.getElementById('googleCanvas'), mapOptions);
-      var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      loc.lat = pos.coords.latitude;
-      loc.lng = pos.coords.longitude;
-      var locStr = "Your position: (Latitude: " + loc.lat + ", Longitude: " + loc.lng + ")";
-      document.getElementById("coordText").innerHTML = locStr;
-      // iconFeature.setGeometry(new ol.geom.Point(ol.proj.transform(loc.toArray(), 'EPSG:4326', 'EPSG:3857')));
-      panToLoc(loc)
+      var geolocate = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+      var infowindow = new google.maps.InfoWindow({
+          map: map,
+          position: geolocate,
+          content:
+              '<h2> lat:' + pos.coords.latitude + '</h2>'+
+              '<h2> long:' + pos.coords.longitude + '</h2>'
+      });    
+      map.setCenter(geolocate);
+
     });
 
     // Update the icon as user moves
@@ -115,7 +118,7 @@
     setTimeout(function(){
       // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation#Watching_the_current_position
       // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.watchPosition
-      //  The callback function is called multiple times, allowing the browser to either update your location as you move, or provide a more accurate location as different techniques are used to geolocate you
+      // The callback function is called multiple times, allowing the browser to either update your location as you move, or provide a more accurate location as different techniques are used to geolocate you
       var watchID = navigator.geolocation.watchPosition(function(pos){
         loc.lat = pos.coords.latitude;
         loc.lng = pos.coords.longitude;
