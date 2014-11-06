@@ -15,7 +15,8 @@
   <p id="coordText">Loading...If the content does not load, check if your browser blocks mixed http/https content.</p>
   <div id="map" class="map"></div>
   
-  <script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
+  <!--script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script-->
+  <script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
   <script type="text/javascript">
   /*
      TODO: 
@@ -24,9 +25,16 @@
   */
 
     if !("geolocation" in navigator)
-    { console.log("No, no geolocation"); return; }
+    { console.log(" >> geolocation not available"); return; }
 
-    var gl = navigator.geolocation;
+    var mapOptions = {
+        zoom: 15;
+        center: coords,
+        // http://www.w3schools.com/googleAPI/ref_maptypeid.asp
+        mapTypeId: google.maps.MapTypeId.SATELLITE
+    };
+
+
 
     var loc = {
       lat:0, 
@@ -92,27 +100,33 @@
       view.setResolution(10); 
     }
 
-
-    //update the current location once 
-    gl.getCurrentPosition(function(pos){
-      loc.lat = pos.coords.latitude;
-      loc.lng = pos.coords.longitude;
+    // Update the current location once 
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var gmaps = new google.maps.Map(document.getElementById('google_canvas'), mapOptions);
+      var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      //loc.lat = pos.coords.latitude;
+      //loc.lng = pos.coords.longitude;
       var locStr = "Your position: (Latitude: " + loc.lat + ", Longitude: " + loc.lng + ")";
       document.getElementById("coordText").innerHTML = locStr;
       iconFeature.setGeometry(new ol.geom.Point(ol.proj.transform(loc.toArray(), 'EPSG:4326', 'EPSG:3857')));
       panToLoc(loc)
     });
 
-    //update the icon as user moves
+    // Update the icon as user moves
+    // http://www.w3schools.com/js/js_timing.asp
     setTimeout(function(){
-      var watchID = gl.watchPosition(function(pos){
+      // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation#Watching_the_current_position
+      // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.watchPosition
+      //  The callback function is called multiple times, allowing the browser to either update your location as you move, or provide a more accurate location as different techniques are used to geolocate you
+      var watchID = navigator.geolocation.watchPosition(function(pos){
         loc.lat = pos.coords.latitude;
         loc.lng = pos.coords.longitude;
         var locStr = "Latitude: " + loc.lat + ", Longitude: " + loc.lng;
         document.getElementById("coordText").innerHTML = locStr;
         iconFeature.setGeometry(new ol.geom.Point(ol.proj.transform(loc.toArray(), 'EPSG:4326', 'EPSG:3857')));
       });
-    },
+    }, 
+    // Set the delay for 3 seconds to postpone the permission request
     3000);
   </script>
 </body>
