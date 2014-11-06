@@ -34,8 +34,6 @@
         mapTypeId: google.maps.MapTypeId.SATELLITE
     };
 
-
-
     var loc = {
       lat:0, 
       lng:0,
@@ -102,13 +100,13 @@
 
     // Update the current location once 
     navigator.geolocation.getCurrentPosition(function(pos){
-      var gmaps = new google.maps.Map(document.getElementById('google_canvas'), mapOptions);
+      var gmaps = new google.maps.Map(document.getElementById('googleCanvas'), mapOptions);
       var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      //loc.lat = pos.coords.latitude;
-      //loc.lng = pos.coords.longitude;
+      loc.lat = pos.coords.latitude;
+      loc.lng = pos.coords.longitude;
       var locStr = "Your position: (Latitude: " + loc.lat + ", Longitude: " + loc.lng + ")";
       document.getElementById("coordText").innerHTML = locStr;
-      iconFeature.setGeometry(new ol.geom.Point(ol.proj.transform(loc.toArray(), 'EPSG:4326', 'EPSG:3857')));
+      // iconFeature.setGeometry(new ol.geom.Point(ol.proj.transform(loc.toArray(), 'EPSG:4326', 'EPSG:3857')));
       panToLoc(loc)
     });
 
