@@ -1,19 +1,19 @@
 {
-  "name": "Geolocation Test",
-  "description": "A simple demo of geolocation feature",
-  "launch_path": "/geoloc.html",
+  "version": "0.1.0",
+  "name": "geo",
+  "description": "A template with the bare minimum structure",
+  "launch_path": "/index.html",
   "icons": {
-    "128": "/img/icon-128.png"
+    "128": "/img/icons/icon128x128.png"
   },
   "developer": {
-    "name": "Shing Lyu",
-    "url": "http://shinglyu.github.io"
+    "name": "eric",
+    "url": "https://github.com/echangmoz"
   },
-  "default_locale": "en",
   "permissions": {
     "geolocation":{
       "description": "Required to show your current location on the map"
     }
-  }
-
+  },
+  "default_locale": "en"
 }
