@@ -27,12 +27,18 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 
 });
-     
+
+var here;
+var map;
+var marker;
+var coor_txt;
+var id;
+
 function init() {
   if (navigator && navigator.geolocation) {
     // Update the current location once 
     navigator.geolocation.getCurrentPosition(function (position) {
-      var here = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      here = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       var map_options = {
         zoom: 16,
         center: here,
@@ -41,17 +47,31 @@ function init() {
         // mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       map_container = document.getElementById('map');
-      var map = new google.maps.Map(map_container, map_options);
+      map = new google.maps.Map(map_container, map_options);
       
-      var marker = new google.maps.Marker({
+      marker = new google.maps.Marker({
         position: here,
         map: map,
       });
       
-      var cood_txt = "Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude;
+      cood_txt = "Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude;
       document.getElementById("coordText").innerHTML = cood_txt;
-      }   
+      }                                     
     );
+ 
+    id = navigator.geolocation.watchPosition(function (position) {
+      marker = new google.maps.Marker({
+        position: here,
+        map: map,
+      });
+      
+      cood_txt = "Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude;
+      document.getElementById("coordText").innerHTML = cood_txt;
+      },
+      errorCallback,                                           
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 0}  
+      );    
+    
     } else {
       console.log('Geolocation is not supported');
     }
