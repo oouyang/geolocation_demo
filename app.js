@@ -54,27 +54,24 @@ function init() {
         map: map,
       });
       
-      cood_txt = "Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude;
+      cood_txt = "Lat: " + DecimalToDegree(position.coords.latitude) + ", Long: " + DecimalToDegree(position.coords.longitude);
       document.getElementById("coordText").innerHTML = cood_txt;
       }                                     
     );
- 
-    id = navigator.geolocation.watchPosition(function (position) {
-      marker = new google.maps.Marker({
-        position: here,
-        map: map,
-      });
-      
-      cood_txt = "Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude;
-      document.getElementById("coordText").innerHTML = cood_txt;
-      },
-      errorCallback,                                           
-      { enableHighAccuracy: true, timeout: 30000, maximumAge: 0}  
-      );    
-    
+       
     } else {
       console.log('Geolocation is not supported');
     }
   }
+
+function DecimalToDegree (dd)
+{
+    var deg = dd | 0; // truncate dd to get degrees
+    var frac = Math.abs(dd - deg); // get fractional part
+    var min = (frac * 60) | 0; // multiply fraction by 60 and truncate
+    var sec = (frac * 3600 - min * 60) | 0;
+    return deg + "° " + min + "' " + sec + "\"";
+}  
+
     
   
