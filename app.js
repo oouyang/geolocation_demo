@@ -28,10 +28,11 @@ window.addEventListener('DOMContentLoaded', function() {
 
 });
 
+
 var here;
 var map;
 var marker;
-var coor_txt;
+var coordinates;
 var id;
 
 function init() {
@@ -54,16 +55,18 @@ function init() {
         map: map,
       });
       
-      cood_txt = "Lat: " + DecimalToDegree(position.coords.latitude) + ", Long: " + DecimalToDegree(position.coords.longitude);
-      document.getElementById("coordText").innerHTML = cood_txt;
+      coordinates = "Lat: " + DecimalToDegree(position.coords.latitude) + ", Long: " + DecimalToDegree(position.coords.longitude);
+      document.getElementById("coordinatesString").innerHTML = coordinates;
       }                                     
     );
        
     } else {
-      console.log('Geolocation is not supported');
-    }
+    console.log('Geolocation is not supported');
   }
+}
 
+
+// Convert decimal value to Degree Minutes and seconds
 function DecimalToDegree (dd)
 {
     var deg = dd | 0; // truncate dd to get degrees
@@ -71,7 +74,24 @@ function DecimalToDegree (dd)
     var min = (frac * 60) | 0; // multiply fraction by 60 and truncate
     var sec = (frac * 3600 - min * 60) | 0;
     return deg + "° " + min + "' " + sec + "\"";
-}  
+}
 
-    
+
+function changeButtonValue()
+{
+  if(document.getElementById("btn-convert-value").value === "Show Decimal Degrees")
+    {
+      document.getElementById("btn-convert-value").value="Show Degrees Minutes & Seconds";
+      coordinates = "Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude;
+      document.getElementById("coordinatesString").innerHTML = coordinates;
+      
+    }
+  else
+    {
+      document.getElementById("btn-convert-value").value="Show Decimal Degrees";
+      coordinates = "Lat: " + DecimalToDegree(position.coords.latitude) + ", Long: " + DecimalToDegree(position.coords.longitude);
+      document.getElementById("coordinatesString").innerHTML = coordinates;
+      
+    }
   
+}

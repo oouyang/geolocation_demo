@@ -10,7 +10,8 @@
     <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
   </head>
   <body onload="javascript:init()">
-    <p id="coordText">Loading...</p>
+    <input onclick="changeButtonValue()" type="button" value="Show Decimal Degrees" id="btn-convert-value"></input>
+    <p id="coordinatesString">Loading...</p>
     <div id="map">
     </div>
     <script src="app.js"></script>
