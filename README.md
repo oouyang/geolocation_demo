@@ -1,4 +1,4 @@
-# Privileged empty app
+# Ubike app
 
 This is a privileged empty app template that provides you with a barebones structure for you to build your app.
 
